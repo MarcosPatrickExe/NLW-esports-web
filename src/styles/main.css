@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.loading {
+    border-radius: 70%;
+    width: 200px;
+    height: 200px;
+    background-color: transparent;
+    border: 20px solid transparent;/* rgb(7, 0, 22) */
+    border-top: 20px solid rgb(139, 92, 246);
+    animation: rotate;
+    animation-timing-function: linear;
+    animation-duration: .8s;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes rotate {
+    from{
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
