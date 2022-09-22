@@ -1,12 +1,13 @@
 import { MagnifyingGlassPlus} from 'phosphor-react';
-import * as Dialog from '@radix-ui/react-dialog';
-import { DialogTrigger } from '@radix-ui/react-dialog';
+//import * as Dialog from '@radix-ui/react-dialog';
+//import { DialogTrigger } from '@radix-ui/react-dialog';
+//import React from 'react';
+import { modalProperties } from '../utils/types';
 
 
 
+export default function CreateAdBanner ( {show,  toggleShowModal }:modalProperties  ){
 
-
-export default function CreateAdBanner (){
 
     {/*======================== RODAPÉ DA PÁGINA ======================================================================= */}
           
@@ -20,16 +21,13 @@ export default function CreateAdBanner (){
                 </div>
 
 
-              {/*  <button className="py-3 px-4 bg-violet-500 hover:bg-violet-700 text-white rounded flex items-center gap-3">    */}     
-                <DialogTrigger className="py-3 px-4 bg-violet-500 hover:bg-violet-700 text-white rounded flex items-center gap-3">
+               <div className="py-3 px-4 bg-violet-500 hover:bg-violet-700 text-white rounded flex items-center gap-3" onClick={ ()=>{ toggleShowModal(true)}  }>
                 {/* BOTÃO QUE VAI CHAMAR O 'MODAL' */}
 
                         <MagnifyingGlassPlus size={24} />
                         Publicar anúncio
              
-                </DialogTrigger>
-                 {/*  </button> */}
-
+                </div>
             </div>
         </div>
     )

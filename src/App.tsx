@@ -1,4 +1,3 @@
-//import { useState } from 'react'
 import './styles/main.css';
 import logo from './assets/Logo.svg';
 import GameBanner from './components/GameBanner';
@@ -21,22 +20,23 @@ interface GameTyped {
     }
 }
 
+
+/*
 function timeout(delay: number) {
     return new Promise( res => setTimeout(res, delay) );
 }
-
-
-
-
+await timout(2000);
+*/
 
 // LINK DO FIGMA:
 // https://www.figma.com/file/AjotQe5dsfCyxCGjEY0iE2/NLW-eSports-(Community)?node-id=6%3A23
+
 
 function App() {
     setTimeout(()=>{}, 2000);
 
     const [games, setGames] = useState<GameTyped[]>([]);
-
+    const [show, setOpenModalAd] = useState(false);
 
     useEffect( function(){
        
@@ -55,6 +55,8 @@ function App() {
             })
 
     }, []);
+
+    
 
 
     return (
@@ -99,15 +101,12 @@ function App() {
           
             {/* Dialog.Root ou modal deve ser colocando em volta do componente que contém o botão que irá abrir o modal*/}
 
-            <Dialog>
-                
-                    <CreateAdBanner />
-                    <CreateAdModel />
-                   
-            </Dialog>
-        </div>
+          
+            <CreateAdBanner show={show} toggleShowModal={ setOpenModalAd }/>
 
-     
+            <CreateAdModel show={show} toggleShowModal={ setOpenModalAd } />
+                   
+        </div>
     );
 }
 

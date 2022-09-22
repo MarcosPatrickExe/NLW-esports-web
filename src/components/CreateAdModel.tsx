@@ -1,105 +1,148 @@
-//import React from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
-import Input from './Form/Input';
+//import * as Dialog from '@radix-ui/react-dialog';
+//import Input from './Form/Input';
 import { GameController } from 'phosphor-react';
+import { modalProperties } from '../utils/types';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+
+const COLORS = {
+    BACKGROUND_MODAL: "#2A2634",
+    INPUT_BACKGROUND_COLOR: "#18181B",
+    INPUT_TEXT_COLOR: "#71717A",
+    BUTTON_ACTION_COLOR: {
+        backgroundColor: "#8B5CF6",
+        border: "0px solid black"
+    },
+    BUTTON_CANCEL: {
+        backgroundColor: "#71717A",
+        border: "0px solid black"
+    }
+}
 
 
 
-export function CreateAdModel() {
+export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
 
-  const styleButtonsDaysWeek = "w-8 h-8 rounded bg-zinc-900"
+  const handleClose = ()=> toggleShowModal(false);
+  //const handleShow = ()=> toggleShowModal(true);
+
+  const styleButtonsDaysWeek = "w-8 h-8 rounded "
+
 
   return (
     /* Portal permite que o modal apareça centralizado na tela por cima dos outros componentes */
-    <Dialog.Portal>
-        
-            {/* Overlay é camada preta que escurece o fundo para destacar o modal  */}
-            <Dialog.Overlay className="bg-black/80 insert-0 fixed" >
+    <>
+            <Modal centered show={show} onHide={handleClose}  animation={true}  >
+              <div className=" h-full w-full rounded-md" style={{backgroundColor: COLORS.BACKGROUND_MODAL, borderColor: "0px solid black"}}>
+
+                    <Modal.Header closeButton>
+                        <Modal.Title className="font-bold text-white">
+                              Publique um anúncio
+                        </Modal.Title>
+                    </Modal.Header>{/* Avisa para os leitores de tela que um novo anúncio/modal foi aberto!! */}
+
+                    <Modal.Body>                    
+                        <Form className="flex flex-col gap-3">
+
+                            <Row>
+                                <Form.Group className="flex flex-col">
+                                    <Form.Label className="font-regular text-white">
+                                        Qual o game? 
+                                    </Form.Label>
+
+                                    <Form.Control className="text-white" id="game" placeholder="Selecione o game que deseja jogar... " style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR }}  />
+                                </Form.Group>
+                            </Row>
+
+                            <Row>
+                                <Form.Group className="flex flex-col">
+                                    <Form.Label className="font-regular text-white" htmlFor="name">
+                                        Seu nome (ou nickname) 
+                                    </Form.Label>
+
+                                    <Form.Control className="text-white" id="name" placeholder="Como te chamam dentro do game?" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                </Form.Group>
+                            </Row>
+
+                            <Row>
+                                <Form.Group as={Col} className=" grid grid-cols-1 gap-1">
+                                        <Form.Label className="font-regular flex flex-col text-white">
+                                            Joga há quantos anos?
+                                        </Form.Label>
+
+                                        <Form.Control className="text-white" id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                </Form.Group>
 
 
-                {/* Conteúdo do modal */}
-                <Dialog.Content className="fixed bg-[#2A2634] py-8 px-10 text-white top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-lg w-[30%] shadow-lg shadow-black/25">
+                                <Form.Group as={Col}  className=" grid grid-cols-1 gap-1">
+                                        <Form.Label className="font-regular flex flex-col text-white">
+                                            Qual o seu Discord?
+                                        </Form.Label>
+                                        <Form.Control className="text-white" id="discord" type="text" placeholder="Usuario#0000" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                        
+                                </Form.Group>
+                            </Row>
+
+                            <Row>
+                                <Form.Group as={Col} className="flex flex-col gap-2 text-white">
+                                    <Form.Label >Quando costuma jogar? </Form.Label>
+                                
+                                    <Form.Group className="grid grid-cols-7 gap-6">
+                                        <Button title="Domingo" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> D </Button>
+                                        <Button title="Segunda" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
+                                        <Button title="Terça" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> T </Button>
+                                        <Button title="Quarta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> Q </Button>
+                                        <Button title="Quinta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> Q </Button>
+                                        <Button title="Sexta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
+                                        <Button title="Sábado" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
+                                    </Form.Group>
+                                </Form.Group>
+
+                                <Form.Group as={Col} className="flex flex-col gap-2 flex-1">
+                                        <Form.Label className="font-regular ml-7 text-white" htmlFor="hourStart">
+                                            Qual horário do dia? 
+                                        </Form.Label>
+
+                                        <div className="ml-7 grid grid-cols-2 gap-1">
+                                            <Form.Control id="hourStart" placeholder="De" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} className="text-white"  />{/* type="time"  */}
+                                            <Form.Control id="hourInput" placeholder="Até" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} className="text-white"  />
+                                        </div>
+                                </Form.Group>
+                            </Row>
+
+                            <Form.Group className="mt-2 flex gap-2 text-sm">
+                                <Form.Check type="checkbox" className="text-white" label="Costumo me conectar ao chat de voz" />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+
+                    <Modal.Footer className="mt-1">
                         
-                    <Dialog.Title className="text-3xl font-black">
-                        Publique um anúncio
-                    </Dialog.Title>{/* Avisa para os leitores de tela que um novo anúncio/modal foi aberto!! */}
+                             <Button 
+                                style={ COLORS.BUTTON_CANCEL }
+                                onClick={ handleClose }
+                                className=" px-3 h-12 rounded-md font-semibold "> 
+                                Cancelar 
+                              </Button>
+                            
 
-                    
-                    <form className="mt-8 flex flex-col gap-4">
-
-                                <div className="flex flex-col gap-2">
-                                    <label className="font-semibold" htmlFor="game">Qual o game? </label>
-                                    <Input id="game" placeholder="Selecione o game que deseja jogar... "   />
-                                </div>
-
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="name">Seu nome (ou nickname) </label>
-                                    <Input id="name" type="text" placeholder="Como te chamam dentro do game?" />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="yearsPlaying">Joga há quantos anos? </label>
-                                            <Input id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?" />
+                              <Button style={ COLORS.BUTTON_ACTION_COLOR } className=" w-45 h-12 font-semibold" type="submit">
+                                 <div className="flex items-center justify-content-center">
+                                        <div className="mr-4">
+                                            <GameController size={24} />
                                         </div>
-
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="discord">Qual o seu Discord? </label>
-                                            <Input id="discord" type="text" placeholder="Usuario#0000" />
-                                        </div>
-                                </div>
-
-
-                                <div className="flex gap-6">
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="weekDays">Quando costuma jogar? </label>
-                                        
-        
-                                            <div className="grid grid-cols-4 gap-2">
-                                                <button title="Domingo" className={styleButtonsDaysWeek}> D </button>
-                                                <button title="Segunda" className={styleButtonsDaysWeek}> S </button>
-                                                <button title="Terça" className={styleButtonsDaysWeek}> T </button>
-                                                <button title="Quarta" className={styleButtonsDaysWeek}> Q </button>
-                                                <button title="Quinta" className={styleButtonsDaysWeek}> Q </button>
-                                                <button title="Sexta" className={styleButtonsDaysWeek}> S </button>
-                                                <button title="Sábado" className={styleButtonsDaysWeek}> S </button>
-                                            </div>
-                                        
-                                        </div>
-
-                                        <div className="flex flex-col gap-2 flex-1">
-                                            <label htmlFor="hourStart">Qual horário do dia? </label>
-                                            <div className="grid grid-cols-2 gap-1">
-                                                <Input id="hourStart" type="time" placeholder="De" />
-                                                <Input id="hourInput" type="time" placeholder="Até" />
-                                            </div>
-                                        </div>
-                                </div>
-
-                                <div className="mt-2 flex gap-2 text-sm">
-                                    <input type="checkbox" />
-                                    Costumo me conectar ao chat de voz
-                                </div>
-
-
-                                <footer className="mt-2 flex justify-end gap-4">
-                                    <Dialog.Close 
-                                        type="button"
-                                        className="bg-zinc-500 px-5 h-12 rounded-md font-semibold hover:bg-zinc-600"> 
-                                        Cancelar 
-                                    </Dialog.Close>
-
-                                    <button className="bg-violet-500 px-5 h-12 rounded-md font-semibold flex item-center gap-3 hover:bg-violet-600" type="submit">
-                                        <GameController size={24} />
+                                        <div>
                                         Encontrar duo
-                                    </button>
-                                </footer>
-
-                    </form>
-                    
-                </Dialog.Content>
-            </Dialog.Overlay>
-    </Dialog.Portal>
-
+                                        </div>
+                                 </div>
+                              </Button>
+                    </Modal.Footer>
+                </div>
+            </Modal>
+    </>
   );
 }
