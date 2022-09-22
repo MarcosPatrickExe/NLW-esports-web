@@ -1,0 +1,35 @@
+
+
+.MODAL{
+    background-color: #2A2634 !important;
+}
+
+.BUTTON_CANCEL {
+    background-color: #71717A !important;
+    border: 0px solid black !important;
+}
+.BUTTON_CANCEL:hover {
+    background-color: #303030 !important;
+    border: 3px solid #71717A !important;
+}
+
+
+.BUTTON_ACTION_COLOR {
+    background-color: #8B5CF6 !important;
+    border: 0px solid #8B5CF6 !important;
+    
+}
+
+.BUTTON_ACTION_COLOR:hover {
+    background-color: #4d046e !important;
+    border: 3px solid rgb(145, 9, 224) !important;
+}
+
+.INPUT_STYLE {
+    color: #c9c9c9 !important;
+    background-color: #18181B !important;
+}
+
+.INPUT_STYLE:hover {
+    box-shadow: 0 0 10px 3px rgb(145, 9, 224) ;
+}

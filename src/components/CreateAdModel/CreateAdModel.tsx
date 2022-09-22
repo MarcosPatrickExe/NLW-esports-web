@@ -1,27 +1,14 @@
 //import * as Dialog from '@radix-ui/react-dialog';
 //import Input from './Form/Input';
 import { GameController } from 'phosphor-react';
-import { modalProperties } from '../utils/types';
+import { modalProperties } from '../../utils/types';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-
-const COLORS = {
-    BACKGROUND_MODAL: "#2A2634",
-    INPUT_BACKGROUND_COLOR: "#18181B",
-    INPUT_TEXT_COLOR: "#71717A",
-    BUTTON_ACTION_COLOR: {
-        backgroundColor: "#8B5CF6",
-        border: "0px solid black"
-    },
-    BUTTON_CANCEL: {
-        backgroundColor: "#71717A",
-        border: "0px solid black"
-    }
-}
+import './style.css';
+import { CloseButton } from 'react-bootstrap';
 
 
 
@@ -29,6 +16,7 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
 
   const handleClose = ()=> toggleShowModal(false);
   //const handleShow = ()=> toggleShowModal(true);
+  
 
   const styleButtonsDaysWeek = "w-8 h-8 rounded "
 
@@ -37,12 +25,14 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
     /* Portal permite que o modal apareça centralizado na tela por cima dos outros componentes */
     <>
             <Modal centered show={show} onHide={handleClose}  animation={true}  >
-              <div className=" h-full w-full rounded-md" style={{backgroundColor: COLORS.BACKGROUND_MODAL, borderColor: "0px solid black"}}>
+              <div className=" h-full w-full rounded-md MODAL" >
 
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title className="font-bold text-white">
                               Publique um anúncio
                         </Modal.Title>
+
+                        <CloseButton variant="white" />
                     </Modal.Header>{/* Avisa para os leitores de tela que um novo anúncio/modal foi aberto!! */}
 
                     <Modal.Body>                    
@@ -54,7 +44,7 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                         Qual o game? 
                                     </Form.Label>
 
-                                    <Form.Control className="text-white" id="game" placeholder="Selecione o game que deseja jogar... " style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR }}  />
+                                    <Form.Control className="INPUT_STYLE" id="game" placeholder="Selecione o game que deseja jogar... " />
                                 </Form.Group>
                             </Row>
 
@@ -64,7 +54,7 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                         Seu nome (ou nickname) 
                                     </Form.Label>
 
-                                    <Form.Control className="text-white" id="name" placeholder="Como te chamam dentro do game?" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                    <Form.Control className="INPUT_STYLE" id="name" placeholder="Como te chamam dentro do game?"  />
                                 </Form.Group>
                             </Row>
 
@@ -74,7 +64,7 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                             Joga há quantos anos?
                                         </Form.Label>
 
-                                        <Form.Control className="text-white" id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                        <Form.Control className="INPUT_STYLE" id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?"  />
                                 </Form.Group>
 
 
@@ -82,7 +72,7 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                         <Form.Label className="font-regular flex flex-col text-white">
                                             Qual o seu Discord?
                                         </Form.Label>
-                                        <Form.Control className="text-white" id="discord" type="text" placeholder="Usuario#0000" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} />
+                                        <Form.Control className="INPUT_STYLE" id="discord" type="text" placeholder="Usuario#0000"  />
                                         
                                 </Form.Group>
                             </Row>
@@ -92,13 +82,13 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                     <Form.Label >Quando costuma jogar? </Form.Label>
                                 
                                     <Form.Group className="grid grid-cols-7 gap-6">
-                                        <Button title="Domingo" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> D </Button>
-                                        <Button title="Segunda" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
-                                        <Button title="Terça" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> T </Button>
-                                        <Button title="Quarta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> Q </Button>
-                                        <Button title="Quinta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> Q </Button>
-                                        <Button title="Sexta" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
-                                        <Button title="Sábado" className={styleButtonsDaysWeek} style={COLORS.BUTTON_ACTION_COLOR}> S </Button>
+                                        <Button title="Domingo" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > D </Button>
+                                        <Button title="Segunda" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
+                                        <Button title="Terça" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > T </Button>
+                                        <Button title="Quarta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>
+                                        <Button title="Quinta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>
+                                        <Button title="Sexta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
+                                        <Button title="Sábado" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
                                     </Form.Group>
                                 </Form.Group>
 
@@ -108,8 +98,8 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                         </Form.Label>
 
                                         <div className="ml-7 grid grid-cols-2 gap-1">
-                                            <Form.Control id="hourStart" placeholder="De" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} className="text-white"  />{/* type="time"  */}
-                                            <Form.Control id="hourInput" placeholder="Até" style={{backgroundColor: COLORS.INPUT_BACKGROUND_COLOR}} className="text-white"  />
+                                            <Form.Control id="hourStart" placeholder="De" className="INPUT_STYLE"  />{/* type="time"  */}
+                                            <Form.Control id="hourInput" placeholder="Até" className="INPUT_STYLE"  />
                                         </div>
                                 </Form.Group>
                             </Row>
@@ -123,20 +113,19 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                     <Modal.Footer className="mt-1">
                         
                              <Button 
-                                style={ COLORS.BUTTON_CANCEL }
                                 onClick={ handleClose }
-                                className=" px-3 h-12 rounded-md font-semibold "> 
+                                className="BUTTON_CANCEL px-3 h-12 rounded-md font-semibold "> 
                                 Cancelar 
                               </Button>
                             
 
-                              <Button style={ COLORS.BUTTON_ACTION_COLOR } className=" w-45 h-12 font-semibold" type="submit">
+                              <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" type="submit">
                                  <div className="flex items-center justify-content-center">
                                         <div className="mr-4">
                                             <GameController size={24} />
                                         </div>
                                         <div>
-                                        Encontrar duo
+                                             Encontrar duo
                                         </div>
                                  </div>
                               </Button>

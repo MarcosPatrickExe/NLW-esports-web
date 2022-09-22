@@ -6,7 +6,7 @@ import { modalProperties } from '../utils/types';
 
 
 
-export default function CreateAdBanner ( {show,  toggleShowModal }:modalProperties  ){
+export default function CreateAdBanner ( {toggleShowModal }:modalProperties  ){
 
 
     {/*======================== RODAPÉ DA PÁGINA ======================================================================= */}

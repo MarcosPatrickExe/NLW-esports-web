@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Dialog } from '@radix-ui/react-dialog';
 //import {e} from '@types/express/index';
 import './styles/main.css'
-import { CreateAdModel } from './components/CreateAdModel';
+import { CreateAdModel } from './components/CreateAdModel/CreateAdModel';
 
 
 
