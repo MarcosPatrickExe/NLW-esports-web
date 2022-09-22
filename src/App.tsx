@@ -8,17 +8,10 @@ import { Dialog } from '@radix-ui/react-dialog';
 //import {e} from '@types/express/index';
 import './styles/main.css'
 import { CreateAdModel } from './components/CreateAdModel/CreateAdModel';
+import { GameTyped } from './utils/types';
 
 
 
-interface GameTyped {
-    id: string,
-    title: string,
-    bannerUrl: string,
-    _count: {
-        ads: number
-    }
-}
 
 
 /*
@@ -40,8 +33,6 @@ function App() {
 
     useEffect( function(){
        
-        setTimeout(() => { }, 5000);
-
         fetch('http://localhost:3333/games')
             .then( (response :Response )=> response.json() )
           
@@ -78,7 +69,7 @@ function App() {
 
 
 {/*================================ CARDS DOS GAMES ===============================================*/}
-            <div className="grid grid-cols-6 gap-6 mt-1 transform scale-80">
+            <div className="grid grid-cols-5 gap-6 transform scale-80 mt-[-7%]">
 
                 { games.length!=0 && (
                         games.map( 

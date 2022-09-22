@@ -9,16 +9,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './style.css';
 import { CloseButton } from 'react-bootstrap';
+import { GameTyped } from '../../utils/types';
+import { useEffect, useState } from 'react';
 
 
 
-export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
+export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
 
   const handleClose = ()=> toggleShowModal(false);
   //const handleShow = ()=> toggleShowModal(true);
+  const styleButtonsDaysWeek = "w-8 h-8 rounded "
+
+  const [games, setGames] = useState<GameTyped[]>([]);
+
+  
+  useEffect( function(){
+      fetch('http://localhost:3333/games')
+        .then( (response :Response )=> response.json() )
+        .then( (data: GameTyped[]) => setGames(data) )
+        .catch( ( requestError ) => console.log(requestError) );
+  }, []);
   
 
-  const styleButtonsDaysWeek = "w-8 h-8 rounded "
 
 
   return (
@@ -32,8 +44,8 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                               Publique um anúncio
                         </Modal.Title>
 
-                        <CloseButton variant="white" />
-                    </Modal.Header>{/* Avisa para os leitores de tela que um novo anúncio/modal foi aberto!! */}
+                        <CloseButton variant="white" disabled={false} />
+                    </Modal.Header>            
 
                     <Modal.Body>                    
                         <Form className="flex flex-col gap-3">
@@ -44,7 +56,22 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                         Qual o game? 
                                     </Form.Label>
 
-                                    <Form.Control className="INPUT_STYLE" id="game" placeholder="Selecione o game que deseja jogar... " />
+                                    <Form.Select  className="INPUT_STYLE" id="game">
+                                        <option>Selecione o game que deseja jogar... </option>
+                                       
+                                        { 
+                                          games.map( game=>{
+                                               return (
+                                                   <option 
+                                                       key={game.id} 
+                                                       value={game.id}>
+                                                            {game.title} 
+                                                   </option>
+                                               )
+                                          })
+                                        }
+
+                                    </Form.Select>
                                 </Form.Group>
                             </Row>
 
@@ -82,12 +109,12 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
                                     <Form.Label >Quando costuma jogar? </Form.Label>
                                 
                                     <Form.Group className="grid grid-cols-7 gap-6">
-                                        <Button title="Domingo" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > D </Button>
-                                        <Button title="Segunda" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
-                                        <Button title="Terça" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > T </Button>
-                                        <Button title="Quarta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>
-                                        <Button title="Quinta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>
-                                        <Button title="Sexta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
+                                        <Button title="Domingo" type="button" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > D </Button>{' '}
+                                        <Button title="Segunda" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>{' '}
+                                        <Button title="Terça" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > T </Button>{' '}
+                                        <Button title="Quarta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>{' '}
+                                        <Button title="Quinta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > Q </Button>{' '}
+                                        <Button title="Sexta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>{' '}
                                         <Button title="Sábado" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
                                     </Form.Group>
                                 </Form.Group>
@@ -112,14 +139,14 @@ export function CreateAdModel(  {show, toggleShowModal }:modalProperties ) {
 
                     <Modal.Footer className="mt-1">
                         
-                             <Button 
+                              <Button
                                 onClick={ handleClose }
                                 className="BUTTON_CANCEL px-3 h-12 rounded-md font-semibold "> 
                                 Cancelar 
                               </Button>
                             
 
-                              <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" type="submit">
+                              <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" onClick={ handleClose } type="submit">
                                  <div className="flex items-center justify-content-center">
                                         <div className="mr-4">
                                             <GameController size={24} />

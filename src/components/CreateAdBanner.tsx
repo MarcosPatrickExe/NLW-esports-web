@@ -12,7 +12,7 @@ export default function CreateAdBanner ( {toggleShowModal }:modalProperties  ){
     {/*======================== RODAPÉ DA PÁGINA ======================================================================= */}
           
     return(
-        <div className="pt-1 bg-nlw-gradient self-stretch rounded-lg mt-1 overflow-hidden mx-16 mb-5">
+        <div className="pt-1 bg-nlw-gradient self-stretch rounded-lg overflow-hidden mx-16 mb-4">
             <div className='bg-[#2A2634] px-8 py-6 flex justify-between items-center' >
 
                 <div>
