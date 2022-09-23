@@ -8,9 +8,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './style.css';
-import { CloseButton } from 'react-bootstrap';
+import { CloseButton, ToggleButtonGroup } from 'react-bootstrap';
 import { GameTyped } from '../../utils/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent  } from 'react';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
 
 
@@ -18,9 +19,9 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
 
   const handleClose = ()=> toggleShowModal(false);
   //const handleShow = ()=> toggleShowModal(true);
-  const styleButtonsDaysWeek = "w-8 h-8 rounded "
 
   const [games, setGames] = useState<GameTyped[]>([]);
+  const [weekDays, setWeekDays] = useState<string[]>([]);
 
   
   useEffect( function(){
@@ -30,25 +31,31 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
         .catch( ( requestError ) => console.log(requestError) );
   }, []);
   
+  
+  function handleCreatAd(event: FormEvent){
+      event.preventDefault();
 
+      console.log("Enviou o form");
+
+  }
 
 
   return (
     /* Portal permite que o modal apareça centralizado na tela por cima dos outros componentes */
     <>
             <Modal centered show={show} onHide={handleClose}  animation={true}  >
-              <div className=" h-full w-full rounded-md MODAL" >
+              <div className="h-full w-full rounded-md MODAL" >
 
                     <Modal.Header>
                         <Modal.Title className="font-bold text-white">
                               Publique um anúncio
                         </Modal.Title>
 
-                        <CloseButton variant="white" disabled={false} />
+                        <CloseButton variant="white" disabled={false} onClick={handleClose} />
                     </Modal.Header>            
 
                     <Modal.Body>                    
-                        <Form className="flex flex-col gap-3">
+                        <Form onSubmit={handleCreatAd} className="flex flex-col gap-3">
 
                             <Row>
                                 <Form.Group className="flex flex-col">
@@ -108,6 +115,7 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                 <Form.Group as={Col} className="flex flex-col gap-2 text-white">
                                     <Form.Label >Quando costuma jogar? </Form.Label>
                                 
+                                {/* 
                                     <Form.Group className="grid grid-cols-7 gap-6">
                                         <Button title="Domingo" type="button" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > D </Button>{' '}
                                         <Button title="Segunda" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>{' '}
@@ -117,6 +125,64 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                         <Button title="Sexta" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>{' '}
                                         <Button title="Sábado" className= { `${styleButtonsDaysWeek} BUTTON_ACTION_COLOR` } > S </Button>
                                     </Form.Group>
+                                */}
+
+
+                             {/*    UTILIZANDO COMPONENTES DA BIBLIOTECA @radix-ui   */}
+                                    <ToggleGroup.Root onValueChange={setWeekDays} className="grid grid-cols-7 gap-6" type="multiple">
+                
+                                            <ToggleGroup.Item 
+                                                value='0'
+                                                title="Domingo" 
+                                                className={ `BUTTON_ACTION_COLOR w-8 h-8 rounded ${weekDays.includes('0') ? 'BUTTON_ACTION_COLOR_SELECTED':''} ` }> 
+                                                        D 
+                                            </ToggleGroup.Item>
+                                          
+                                          
+                                            <ToggleGroup.Item 
+                                                value='1'
+                                                title="Segunda" 
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('1') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        S 
+                                            </ToggleGroup.Item>
+
+                                            <ToggleGroup.Item 
+                                                value='2' 
+                                                title="Terça"   
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('2') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        T 
+                                            </ToggleGroup.Item>
+
+                                            <ToggleGroup.Item 
+                                                value='3'
+                                                title="Quarta"  
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('3') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        Q 
+                                            </ToggleGroup.Item>
+
+                                            <ToggleGroup.Item 
+                                                value='4'
+                                                title="Quinta"  
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('4') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        Q 
+                                            </ToggleGroup.Item>
+
+                                            <ToggleGroup.Item 
+                                                value='5'
+                                                title="Sexta"  
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('5') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        S 
+                                            </ToggleGroup.Item>
+
+                                            <ToggleGroup.Item 
+                                                value='6'
+                                                title="Sábado"  
+                                                className={ `w-8 h-8 rounded ${weekDays.includes('6') ? 'BUTTON_ACTION_COLOR_SELECTED':'BUTTON_ACTION_COLOR'} ` }> 
+                                                        S 
+                                            </ToggleGroup.Item>
+                                    </ToggleGroup.Root>
+
+
                                 </Form.Group>
 
                                 <Form.Group as={Col} className="flex flex-col gap-2 flex-1">
@@ -132,21 +198,23 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                             </Row>
 
                             <Form.Group className="mt-2 flex gap-2 text-sm">
-                                <Form.Check type="checkbox" className="text-white" label="Costumo me conectar ao chat de voz" />
+                                 <label className="text-white inline-flex space-x-2">
+                                      <Form.Check />
+                                      <span className="inline"> Costumo me conectar ao chat de voz</span>
+                                 </label>
                             </Form.Group>
-                        </Form>
-                    </Modal.Body>
 
-                    <Modal.Footer className="mt-1">
-                        
-                              <Button
+
+
+
+                            <Button
                                 onClick={ handleClose }
                                 className="BUTTON_CANCEL px-3 h-12 rounded-md font-semibold "> 
                                 Cancelar 
-                              </Button>
+                            </Button>
                             
 
-                              <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" onClick={ handleClose } type="submit">
+                            <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" type="submit">
                                  <div className="flex items-center justify-content-center">
                                         <div className="mr-4">
                                             <GameController size={24} />
@@ -155,8 +223,15 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                              Encontrar duo
                                         </div>
                                  </div>
-                              </Button>
-                    </Modal.Footer>
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+{/*
+                    <Modal.Footer className="mt-1">
+                        
+                              
+                            </Modal.Footer>
+*/}
                 </div>
             </Modal>
     </>

@@ -17,13 +17,18 @@
 .BUTTON_ACTION_COLOR {
     background-color: #8B5CF6 !important;
     border: 0px solid #8B5CF6 !important;
-    
 }
 
 .BUTTON_ACTION_COLOR:hover {
     background-color: #4d046e !important;
-    border: 3px solid rgb(145, 9, 224) !important;
+    border: 2px solid rgb(145, 9, 224) !important;
 }
+
+.BUTTON_ACTION_COLOR_SELECTED{
+    background-color: #4d046e !important;
+    border: 2px solid rgb(145, 9, 224) !important;
+}
+
 
 .INPUT_STYLE {
     color: #c9c9c9 !important;
