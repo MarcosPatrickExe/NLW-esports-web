@@ -10,9 +10,13 @@ import Col from 'react-bootstrap/Col';
 import './style.css';
 import { CloseButton, ToggleButtonGroup } from 'react-bootstrap';
 import { GameTyped } from '../../utils/types';
-import { useEffect, useState, FormEvent  } from 'react';
+import { useEffect, useState, FormEvent, ChangeEvent} from 'react';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
+ // BIBLIOTECA DE CAROUSEL: keen-slider
+ // BILBLIOTECA DE VALIDAÇÃO: react hook form
+ // BILBLIOTECA DE VALIDAÇÃO: zod (tbm pode ser utilizado no backend)
+// SUGESTÕES DE FEATURES PARA O FRONTEND: autenticação com discord/twitch, validação com animação
 
 
 export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
@@ -22,8 +26,10 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
 
   const [games, setGames] = useState<GameTyped[]>([]);
   const [weekDays, setWeekDays] = useState<string[]>([]);
-
+  const [useVoiceChannel, setUseVoiceChannel] = useState<boolean>(false);
   
+  
+
   useEffect( function(){
       fetch('http://localhost:3333/games')
         .then( (response :Response )=> response.json() )
@@ -32,15 +38,56 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
   }, []);
   
   
-  function handleCreatAd(event: FormEvent){
-      event.preventDefault();
 
-      console.log("Enviou o form");
-
+  function handleChangeCheck(event: ChangeEvent ){
+      setUseVoiceChannel( !useVoiceChannel );
   }
 
 
-  return (
+  function handleCreatAd(event: FormEvent){// OU event: FormEvent
+      event.preventDefault();
+
+      const form = new FormData( event.target as HTMLFormElement );// OU event.target as HTMLFormElement
+      const formDataObj = Object.fromEntries(form.entries());
+    //  console.log( formDataObj.gameSelected );
+
+
+      if(formDataObj.gameSelected != "Selecione o game que deseja jogar..."){
+
+            const url= `http://localhost:3333/games/${formDataObj.gameSelected}/ads`;
+     
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify( {
+                    nickName: formDataObj.nickname ,
+                    yearsPlaying: Number(formDataObj.yearsPlaying),
+                    discord: formDataObj.discord ,
+                    weekDays: weekDays, //weekDays.map(Number), MUITO UTILIZADO PARA CONVERTER VETOR DE STRING PARA TIPO 'NUMBER'
+                    hourStart: formDataObj.hourStart as String,
+                    hourEnd: formDataObj.hourEnd as String,
+                    useVoiceChannel: useVoiceChannel
+                })
+            }
+
+            fetch(url, requestOptions)
+                .then(response => alert("Anúncio cadastrado com sucesso!! Status: "+response.status))
+                .catch(error => alert("Houve um erro de cadastro!! \n Error: "+error))
+     
+            handleClose();
+      }else{
+            alert("Por favor, selecione um jogo!!");
+      }
+  }
+
+
+
+
+
+//========================================= RENDERIÇÃO DA VIEW ======================================================
+
+
+   return (
     /* Portal permite que o modal apareça centralizado na tela por cima dos outros componentes */
     <>
             <Modal centered show={show} onHide={handleClose}  animation={true}  >
@@ -63,8 +110,8 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                         Qual o game? 
                                     </Form.Label>
 
-                                    <Form.Select  className="INPUT_STYLE" id="game">
-                                        <option>Selecione o game que deseja jogar... </option>
+                                    <Form.Select name="gameSelected" className="INPUT_STYLE" id="game">
+                                        <option>Selecione o game que deseja jogar...</option>
                                        
                                         { 
                                           games.map( game=>{
@@ -85,10 +132,10 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                             <Row>
                                 <Form.Group className="flex flex-col">
                                     <Form.Label className="font-regular text-white" htmlFor="name">
-                                        Seu nome (ou nickname) 
+                                        Seu nome (ou nickname):
                                     </Form.Label>
 
-                                    <Form.Control className="INPUT_STYLE" id="name" placeholder="Como te chamam dentro do game?"  />
+                                    <Form.Control name="nickname" className="INPUT_STYLE" id="name" placeholder="Como te chamam dentro do game?"  />
                                 </Form.Group>
                             </Row>
 
@@ -98,7 +145,7 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                             Joga há quantos anos?
                                         </Form.Label>
 
-                                        <Form.Control className="INPUT_STYLE" id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?"  />
+                                        <Form.Control name="yearsPlaying" className="INPUT_STYLE" id="yearsPlaying" type="text" placeholder="Tudo bem ser ZERO?"  />
                                 </Form.Group>
 
 
@@ -106,7 +153,7 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                         <Form.Label className="font-regular flex flex-col text-white">
                                             Qual o seu Discord?
                                         </Form.Label>
-                                        <Form.Control className="INPUT_STYLE" id="discord" type="text" placeholder="Usuario#0000"  />
+                                        <Form.Control name="discord" className="INPUT_STYLE" id="discord" type="text" placeholder="Usuario#0000"  />
                                         
                                 </Form.Group>
                             </Row>
@@ -128,7 +175,7 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                 */}
 
 
-                             {/*    UTILIZANDO COMPONENTES DA BIBLIOTECA @radix-ui   */}
+                             {/*    UTILIZANDO COMPONENTES DA BIBLIOTECA @radix-ui  LOGO ABAIXO AO INVÉS DA BIBLIOTECA 'react-bootstrap' */}
                                     <ToggleGroup.Root onValueChange={setWeekDays} className="grid grid-cols-7 gap-6" type="multiple">
                 
                                             <ToggleGroup.Item 
@@ -181,9 +228,8 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                                         S 
                                             </ToggleGroup.Item>
                                     </ToggleGroup.Root>
-
-
                                 </Form.Group>
+
 
                                 <Form.Group as={Col} className="flex flex-col gap-2 flex-1">
                                         <Form.Label className="font-regular ml-7 text-white" htmlFor="hourStart">
@@ -191,22 +237,23 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                                         </Form.Label>
 
                                         <div className="ml-7 grid grid-cols-2 gap-1">
-                                            <Form.Control id="hourStart" placeholder="De" className="INPUT_STYLE"  />{/* type="time"  */}
-                                            <Form.Control id="hourInput" placeholder="Até" className="INPUT_STYLE"  />
+                                            <Form.Control name="hourStart" id="hourStart" type="time" placeholder="De" className="INPUT_STYLE"  />{/* type="time"  */}
+                                            <Form.Control name="hourEnd" id="hourInput" type="time" placeholder="Até" className="INPUT_STYLE"  />
                                         </div>
                                 </Form.Group>
                             </Row>
 
                             <Form.Group className="mt-2 flex gap-2 text-sm">
                                  <label className="text-white inline-flex space-x-2">
-                                      <Form.Check />
+                                      <Form.Check checked={useVoiceChannel} onChange={ handleChangeCheck} />
                                       <span className="inline"> Costumo me conectar ao chat de voz</span>
                                  </label>
                             </Form.Group>
 
 
-
-
+{/*
+                    <Modal.Footer className="mt-1">
+*/}
                             <Button
                                 onClick={ handleClose }
                                 className="BUTTON_CANCEL px-3 h-12 rounded-md font-semibold "> 
@@ -226,10 +273,7 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
                             </Button>
                         </Form>
                     </Modal.Body>
-{/*
-                    <Modal.Footer className="mt-1">
-                        
-                              
+{/*                           
                             </Modal.Footer>
 */}
                 </div>

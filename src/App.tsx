@@ -11,16 +11,6 @@ import { CreateAdModel } from './components/CreateAdModel/CreateAdModel';
 import { GameTyped } from './utils/types';
 
 
-
-
-
-/*
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
-await timout(2000);
-*/
-
 // LINK DO FIGMA:
 // https://www.figma.com/file/AjotQe5dsfCyxCGjEY0iE2/NLW-eSports-(Community)?node-id=6%3A23
 
@@ -32,26 +22,21 @@ function App() {
     const [show, setOpenModalAd] = useState(false);
 
     useEffect( function(){
-       
+
         fetch('http://localhost:3333/games')
             .then( (response :Response )=> response.json() )
-          
             .then( (data: GameTyped[]) => {
                     console.dir( JSON.stringify(data, null, 4) );
                     setGames(data);
-                   
             })
             .catch( function( requestError ){
-                  console.log(requestError);
+                  alert(requestError);
             })
-
     }, []);
 
     
 
-
     return (
-    
         <div className='max-w-[1344p] mx-auto flex flex-col items-center'>
 
             <img className='aspect-video transform scale-25 mt-[-12%]' src={logo} alt=""/>
@@ -69,10 +54,10 @@ function App() {
 
 
 {/*================================ CARDS DOS GAMES ===============================================*/}
-            <div className="grid grid-cols-5 gap-6 transform scale-80 mt-[-7%]">
+            <div className="grid grid-cols-5 gap-6 transform scale-80 mt-[2%]">
 
                 { games.length!=0 && (
-                        games.map( 
+                        games.map(
                             function( game: GameTyped ) {
                                 return (
                                     <GameBanner 
@@ -88,15 +73,12 @@ function App() {
             </div>
 
 
+
 {/*================================ RODAPÉ (DIV COM BOTÃO DE CRIAR ANÚNCIO) ===============================================*/}
-          
             {/* Dialog.Root ou modal deve ser colocando em volta do componente que contém o botão que irá abrir o modal*/}
 
-          
             <CreateAdBanner show={show} toggleShowModal={ setOpenModalAd }/>
-
             <CreateAdModel show={show} toggleShowModal={ setOpenModalAd } />
-                   
         </div>
     );
 }
