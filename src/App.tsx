@@ -30,31 +30,31 @@ function App() {
                     setGames(data);
             })
             .catch( function( requestError ){
-                  alert(requestError);
+                  console.log(requestError);
             })
     }, []);
 
     
 
     return (
-        <div className='max-w-[1344p] mx-auto flex flex-col items-center'>
+        <div className='max-w-[1344p]  mx-auto flex flex-col items-center'>
 
-            <img className='aspect-video transform scale-25 mt-[-12%]' src={logo} alt=""/>
+            <img className='aspect-video col-xl-5  col-sm-5  col-5    mt-[5%]' src={logo} alt=""/>
 
-            <h1 className="text-5xl text-white font-black mt-[-12%]">
-                Seu <span className="text-transparent bg-nlw-gradient bg-clip-text"> duo </span> está aqui
+            <h1 className="text-5xl  text-white font-black mt-[3%]">
+                Seu <span className="text-transparent bg-nlw-gradient bg-clip-text "> duo </span> está aqui
             </h1>
            
 
             { games.length==0 && ( 
-                    <div className="grid grid-cols-6 gap-6 mt-12 transform scale-80 w-full h-50 mb-6 pl-[45%] pr-[50%] ">
-                          <div className="loading relative "></div>
+                    <div className="mt-12 w-full h-50 mb-6 flex justify-center"> {/* pl-[45%] pr-[50%] */}
+                          <div className="loading relative transform scale-0"></div>
                     </div> ) 
             }
 
 
 {/*================================ CARDS DOS GAMES ===============================================*/}
-            <div className="grid grid-cols-5 gap-6 transform scale-80 mt-[2%]">
+            <div className="grid lg:grid-cols-5  sm:grid-cols-2    gap-6 transform scale-80 mt-[2%]">
 
                 { games.length!=0 && (
                         games.map(
@@ -77,7 +77,11 @@ function App() {
 {/*================================ RODAPÉ (DIV COM BOTÃO DE CRIAR ANÚNCIO) ===============================================*/}
             {/* Dialog.Root ou modal deve ser colocando em volta do componente que contém o botão que irá abrir o modal*/}
 
+            {/* COMPONENTE RODAPÉ */}
             <CreateAdBanner show={show} toggleShowModal={ setOpenModalAd }/>
+
+
+            {/* COMPONENTE MODAL */}
             <CreateAdModel show={show} toggleShowModal={ setOpenModalAd } />
         </div>
     );

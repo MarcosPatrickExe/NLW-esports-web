@@ -253,24 +253,26 @@ export function CreateAdModel(  {show, toggleShowModal}:modalProperties ) {
 
 {/*
                     <Modal.Footer className="mt-1">
-*/}
-                            <Button
-                                onClick={ handleClose }
-                                className="BUTTON_CANCEL px-3 h-12 rounded-md font-semibold "> 
-                                Cancelar 
-                            </Button>
-                            
+*/}                     
+                          <div className="flex flex-row justify-end">
+                              <Button
+                                    onClick={ handleClose }
+                                    className="BUTTON_CANCEL px-3 h-12 mr-5 rounded-md font-semibold "> 
+                                    Cancelar 
+                              </Button>
+                                
 
-                            <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" type="submit">
-                                 <div className="flex items-center justify-content-center">
-                                        <div className="mr-4">
-                                            <GameController size={24} />
-                                        </div>
-                                        <div>
-                                             Encontrar duo
-                                        </div>
-                                 </div>
-                            </Button>
+                              <Button className="BUTTON_ACTION_COLOR w-45 h-12 font-semibold" type="submit">
+                                    <div className="flex items-center justify-content-center">
+                                            <div className="mr-4">
+                                                <GameController size={24} />
+                                            </div>
+                                            <div>
+                                                Encontrar duo
+                                            </div>
+                                    </div>
+                              </Button>
+                          </div>
                         </Form>
                     </Modal.Body>
 {/*                           
